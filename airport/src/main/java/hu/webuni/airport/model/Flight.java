@@ -25,6 +25,9 @@ public class Flight {
 	@GeneratedValue
 	@EqualsAndHashCode.Include
 	private long id;
+	
+	private String flightNumber;
+	private LocalDateTime takeoffTime;
 
 	@ManyToOne
 	private Airport takeoff;
@@ -32,6 +35,5 @@ public class Flight {
 	@ManyToOne
 	private Airport landing;
 	
-	private String flightNumber;
-	private LocalDateTime takeoffTime;
+	
 }

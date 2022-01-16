@@ -1,17 +1,14 @@
 package hu.webuni.airport.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.within;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.*;
-import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +22,10 @@ import hu.webuni.airport.repository.FlightRepository;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-public class AirportServiceIT {
+public class FlightServiceIT {
 
 	@Autowired
-	AirportService airportService;
+	FlightService flightService;
 	
 	@Autowired
 	AirportRepository airportRepository;
@@ -80,11 +77,16 @@ public class AirportServiceIT {
 		example.setFlightNumber("ABC123");
 		example.setTakeoffTime(takeoff);
 		example.setTakeoff(new Airport("sasa", "iata"));
-		List<Flight> foundFlights= this.airportService.findFlightsByExample(example);
+		List<Flight> foundFlights= this.flightService.findFlightsByExample(example);
 		assertThat(foundFlights.stream().map(Flight::getId).collect(Collectors.toList())).containsExactly(flight1, flight2);
 	}
 
 	private long createFlight(String flightNumber, long takeoff, long landing, LocalDateTime dateTime) {
-		return airportService.createFlight(flightNumber, takeoff, landing, dateTime).getId();
+		Flight flight = new Flight();
+		flight.setFlightNumber(flightNumber);
+		flight.setTakeoffTime(dateTime);
+		flight.setTakeoff(Airport.builder().id(takeoff).build());
+		flight.setLanding(Airport.builder().id(landing).build());
+		return flightService.save(flight).getId();
 	}
 }
