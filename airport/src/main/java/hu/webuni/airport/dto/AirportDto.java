@@ -1,20 +1,25 @@
 package hu.webuni.airport.dto;
 
-import javax.validation.constraints.Size;
+import hu.webuni.airport.model.Flight;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.Set;
+
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AirportDto {
-	
+
 	private long id;
 	@Size(min = 3, max = 20)
 	private String name;
 	private String iata;
+	private AddressDto address;
+	private List<FlightDto> departures;
+	private Set<FlightDto> arrivals;
 }

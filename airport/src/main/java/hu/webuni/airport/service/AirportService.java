@@ -1,19 +1,23 @@
 package hu.webuni.airport.service;
 
+import hu.webuni.airport.model.Airport;
+import hu.webuni.airport.repository.AirportRepository;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import hu.webuni.airport.model.Airport;
-import hu.webuni.airport.repository.AirportRepository;
-import lombok.RequiredArgsConstructor;
-
 @RequiredArgsConstructor
 @Service
 public class AirportService {
+
+	private static final Logger logger = LoggerFactory.getLogger(AirportService.class);
 
 	private final AirportRepository airportRepository;
 
@@ -56,5 +60,20 @@ public class AirportService {
 	public void delete(long id) {
 		airportRepository.deleteById(id);
 	}
-	
+
+	// a transactional biztositja hogy ugyanabba a perzisztencia kontextusba tartozzanak
+	@Transactional
+    public List<Airport> findAllWithRelationships(Pageable pageable) {
+		// ezek mar lecsatolt entitasok lesznek, sima listaban ha nem lenne a Transactional annotacio
+//		List<Airport> airports = airportRepository.findAllWithAddressAndDepartures(pageable);	--> in memory lapozas, minden sor bejon a db-bol
+//		airports = airportRepository.findAllWithArrivals(pageable);
+
+		List<Airport> airports = airportRepository.findAllWithAddress(pageable);
+		List<Long> airportIds = airports.stream().map(Airport::getId).toList();
+
+		airports = airportRepository.findByIdWithArrivals(airportIds);
+		airports = airportRepository.findByIdWithDepartures(airportIds);
+
+		return airports;
+	}
 }

@@ -1,23 +1,12 @@
-package hu.webuni.airport.model;
+package hu.webuni.airport.dto;
 
-import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
-public class Address {
+public class AddressDto {
 
-    @Id
-    @GeneratedValue
-    @EqualsAndHashCode.Include()
     private long id;
     private String country;
     private String city;

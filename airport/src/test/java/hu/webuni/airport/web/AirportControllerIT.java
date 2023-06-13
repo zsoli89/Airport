@@ -26,9 +26,13 @@ public class AirportControllerIT {
 	@Test
 	void testThatCreatedAirportIsListed() throws Exception {
 		List<AirportDto> airportsBefore = getAllAirports();
-		
-		AirportDto newAirport = new AirportDto(5, "faasffgaf", "IGH");
-		
+		// Dto osztályban @Builder annotáció miatt lehet személyreszabott konstruktort beállítani
+		AirportDto newAirport = AirportDto.builder()
+				.id(5)
+				.name("faasffgaf")
+				.iata("IGH")
+				.build();
+
 		AirportDto savedAirport = createAirport(newAirport);
 		newAirport.setId(savedAirport.getId());
 		
