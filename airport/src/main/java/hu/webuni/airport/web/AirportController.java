@@ -56,6 +56,10 @@ public class AirportController {
                 ? airportMapper.airportsToDtos(airports)
                 : airportMapper.airportSummariesToDtos(airports)
                 ;
+//        a lentivel meg lehet nézni mennyivel több lekérdezés ez az egész: 13
+//        List<Airport> airports = airportRepository.findAll();
+//        return airportMapper.airportsToDtos(airports);
+
     }
 
     @GetMapping("/{id}")

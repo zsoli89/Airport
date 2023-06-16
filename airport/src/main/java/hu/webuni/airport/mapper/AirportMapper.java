@@ -23,6 +23,7 @@ public interface AirportMapper {
 
 	AirportDto airportToDto(Airport airport);
 
+//	ahhoz hogy ignorálja az addresst vagy a többit, kell a mapping annotáció
 	@Named("summary")
 	@Mapping(target = "address", ignore = true)
 	@Mapping(target = "departures", ignore = true)
@@ -31,6 +32,7 @@ public interface AirportMapper {
 
 	Airport dtoToAirport(AirportDto airportDto);
 
+//	végtelen ciklust előz meg, hogy folyton visszakérdezzen
 	@Mapping(target = "takeoff", ignore = true)
 	@Mapping(target = "landing", ignore = true)
 	FlightDto flightToDto(Flight flight);

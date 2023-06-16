@@ -27,15 +27,35 @@ public class Airport {
     @Size(min = 3, max = 20)
     private String name;
     private String iata;
+
+//    @Fetch()
+//    a Fetch kaphat join select subselect-et, selectnél minden betöltődik, join-nak nem lesz hatása mert csak id alapú
+//    keresés alapján hat, subselect manytoone teljesen használni
+//    ha nem akarjuk a plus N select akkor lazynek kell jelölni a kapcsolatot
+//    ha lazy initialization hibát kapunk, valószínű hogy lecsatolt állapotban akarjuk betölteni az entitásokat, amikor a
+//    az Airpotban az address getter meghívja akkor dobja a hibát
+//    az airportban amik bent vannak tagváltozók az address helyén az nem az address az address proxy, dinamikusan generálja a
+//    hibernate, amikor elérik a propertyt akkor fordul db-hez de már le van csatolva
     @ManyToOne(fetch = FetchType.LAZY)
     private Address address;
 
-    //	@OneToMany(mappedBy = "takeoff")
-    // a kovetkezo mappedBy utani resz (FetchType.EAGER) ritkabban javasolt
-    //	@Fetch(FetchMode.JOIN)
-    // SUBSELECT se kell mert az is plusz lekerdezes, inkabb a query-ben gondolkodni az osszese adatrol
-    @OneToMany(mappedBy = "takeoff"/*, fetch = FetchType.EAGER*/)
-//    @Fetch(FetchMode.SUBSELECT)
+//    a kovetkezo mappedBy utani resz (FetchType.EAGER) ritkabban javasolt
+//	  @Fetch(FetchMode.JOIN) ez csak queryben működik
+
+//    subselect eager typeal
+//    Fetch(FetchMode.SUBSELECT)
+//    @OneToMany(mappedBy = "takeoff", fetch = FetchType.EAGER)
+//    SUBSELECT se kell mert az is plusz lekerdezes, inkabb a query-ben gondolkodni az osszese adatrol
+//    Subselect esetén ha fullba kérem lazy initialization exception-t dob még akkor is ha megadjuk neki az EAGER typo-t
+//    nem tölti be a departureket
+
+//    sima eager type
+//    @OneToMany(mappedBy = "takeoff", fetch = FetchType.EAGER) és ha repoban EntityGraphfal adom meg annak alapértelmezett .FETCH
+//    a típusa és nem töltődik be
+//    fetchtype eager esetben hiába nem kérem fullba az össze adatot, a hibernate hívás megtörténik annyi alkalommal
+//    ahány Flight van
+
+    @OneToMany(mappedBy = "takeoff")
     private List<Flight> departures;
     // joinos fetch csak queryba irva mukodik
 

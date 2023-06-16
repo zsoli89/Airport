@@ -20,14 +20,26 @@ public interface AirportRepository extends JpaRepository<Airport, Long>{
 	//	@Query("SELECT a FROM Airport a LEFT JOIN FETCH a.address")
 	// a type ... nem kell mert semmit nem toltok be EAGER modon
 	// nem kellenek az arrivalek a legjobb megoldashoz
+
+//	nem full esetben jó
+//	full esetben - Multiple bags exception, ha tobb listát szeretnénk befetchelni nem engedi, ennek megoldása hogy ne
+//	List legyen hanem Set, Set-tel nem lehet többször ugyanaz a Flight az adott Airporthoz
+//	ezzel egyetlen Select lenne, de sok a visszatérő adatok sora, Descartes-szorzat
+//	@EntityGraph(attributePaths = {"address", "departures", "arrivals"}
+
 	@EntityGraph(attributePaths = {"address", "departures"/*, "arrivals"*/}/*, type = EntityGraph.EntityGraphType.LOAD*/)
 	@Query("SELECT a FROM Airport a")
 	List<Airport> findAllWithAddressAndDepartures(Pageable pageable);
 
+//	alapértelmezett EntityGraph típus a .FETCH, ilyenkor szigorúan az töltődik be amit attributePath-nek megadtunk "arrivals"
+//	még akkor sem töltődik be ha kapcsolatban FetchType.EAGER miatt kellene
+//	ha .LOAD, azok is benne lesznek amiket nem specifikálok
 	@EntityGraph(attributePaths = {"arrivals"})
 	@Query("SELECT a FROM Airport a")
 	List<Airport> findAllWithArrivals(Pageable pageable);
 
+//	ha be szeretnél tölteni az addresseket másik megoldás
+//	@Query("SELECT a FROM Airport a LEFT JOIN FETCH a.address") ehelyett EntityGraph
 	@EntityGraph(attributePaths = {"address"})
 	@Query("SELECT a FROM Airport a")
 	List<Airport> findAllWithAddress(Pageable pageable);
