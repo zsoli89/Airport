@@ -1,6 +1,7 @@
 package hu.webuni.airport.repository;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,6 +15,7 @@ public interface AirportRepository extends JpaRepository<Airport, Long>{
 	Long countByIata(String iata);
 	
 	Long countByIataAndIdNot(String iata, long id);
+
 	// fetchGraph az alapertelmezett, masik a loadGraph, hiaba az
 	// eagerFetch az entitason itt is meg kell adni az address mellett a type kiegeszitest
 	// igy egyetlen select lesz a sok select helyett
@@ -54,5 +56,5 @@ public interface AirportRepository extends JpaRepository<Airport, Long>{
 
 	@EntityGraph(attributePaths = {"departures"})
 	@Query("SELECT a FROM Airport a WHERE a.id IN :ids")
-	List<Airport> findByIdWithDepartures(List<Long> ids);
+	List<Airport> findByIdWithDepartures(List<Long> ids, Sort sort);
 }

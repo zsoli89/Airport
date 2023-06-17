@@ -21,7 +21,7 @@ public interface FlightRepository extends
         QuerydslBinderCustomizer<QFlight> {
 
     //Ahhoz, hogy a Controller-ben levő Predicate ne csak pontos egyezést fogadjon el, extendalni kell:
-    //QuerydslBinderCustomizer<QFlight>
+    //QuerydslBinderCustomizer<QFlight> ezzel lehet testre szabni milyen feltételekkel szeretnénk keresni
     @Override
     default void customize(QuerydslBindings bindings, QFlight flight) {
         // kell a first() ugyanolyan néven több requestet is felküldhetek

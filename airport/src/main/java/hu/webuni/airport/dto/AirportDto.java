@@ -1,10 +1,8 @@
 package hu.webuni.airport.dto;
 
-import hu.webuni.airport.model.Flight;
 import lombok.*;
 
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Set;
 
 
@@ -20,6 +18,6 @@ public class AirportDto {
 	private String name;
 	private String iata;
 	private AddressDto address;
-	private List<FlightDto> departures;
+	private Set<FlightDto> departures;
 	private Set<FlightDto> arrivals;
 }

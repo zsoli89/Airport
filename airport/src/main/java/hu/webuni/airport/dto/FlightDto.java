@@ -13,15 +13,11 @@ import lombok.Setter;
 public class FlightDto {
 
 	private long id;
-	
 	@NotEmpty
 	private String flightNumber;
-	
 	@NotNull
 	private LocalDateTime takeoffTime;
-
 	private AirportDto takeoff;
-	
 	private AirportDto landing;
 
 }
