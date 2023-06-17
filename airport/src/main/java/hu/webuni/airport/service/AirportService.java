@@ -67,6 +67,10 @@ public class AirportService {
 		// ezek mar lecsatolt entitasok lesznek, sima listaban ha nem lenne a Transactional annotacio
 //		List<Airport> airports = airportRepository.findAllWithAddressAndDepartures(pageable);	--> in memory lapozas, minden sor bejon a db-bol
 //		airports = airportRepository.findAllWithArrivals(pageable);
+//		jobb megoldás, ha van 100 departure és 100 arrival az csak 200 sor jönne vissz a db-ből, folytathatnánk akárhány kapcsolattal
+//		ha többet joinolunk akkor jó ha tudjuk hogy nincs sok sor, nem nagy az eredményhalmaz
+//		ha nincs @Transactional akkor az első lekérdezés után egyből lecsatolt entitásokat kapnék, csak az arrivals lenne kitöltve
+//		az address és departures nem, és dobálná a lazy init exceptionoket
 
 		List<Airport> airports = airportRepository.findAllWithAddress(pageable);
 		List<Long> airportIds = airports.stream().map(Airport::getId).toList();

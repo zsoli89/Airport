@@ -16,7 +16,7 @@ import hu.webuni.airport.dto.AirportDto;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
-public class AirportControllerIT {
+class AirportControllerIT {
 	
 	private static final String BASE_URI="/api/airports";
 	

@@ -22,7 +22,7 @@ import hu.webuni.airport.repository.FlightRepository;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-public class FlightServiceIT {
+class FlightServiceIT {
 
 	@Autowired
 	FlightService flightService;

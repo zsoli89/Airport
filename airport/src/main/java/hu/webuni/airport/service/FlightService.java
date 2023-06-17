@@ -1,25 +1,22 @@
 package hu.webuni.airport.service;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
+import hu.webuni.airport.model.Airport;
+import hu.webuni.airport.model.Flight;
 import hu.webuni.airport.model.QFlight;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
+import hu.webuni.airport.repository.AirportRepository;
+import hu.webuni.airport.repository.FlightRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import hu.webuni.airport.model.Airport;
-import hu.webuni.airport.model.Flight;
-import hu.webuni.airport.repository.AirportRepository;
-import hu.webuni.airport.repository.FlightRepository;
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -36,6 +33,7 @@ public class FlightService {
 		return flightRepository.save(flight);
 	}
 
+//	Specificationnel megoldva
 //	public List<Flight> findFlightsByExample(Flight example) {
 //
 //		long id = example.getId();
@@ -94,6 +92,8 @@ public class FlightService {
 		}
 		// iterable-t akar, guava-t kell behúzni függőségnek mvnrepo-bol
 		// igy kerul ide a Lists.newArrayList
+//		ExpressionUtils.allOf-val lehet egy listának az elemeit össze és-elni, ez egy Querydls-es utility osztály
+//		Querydsl api nem listával dolgozik hanem iterable, ezért van a guava
 		return Lists.newArrayList(flightRepository.findAll(ExpressionUtils.allOf(predicates)));
 	}
 

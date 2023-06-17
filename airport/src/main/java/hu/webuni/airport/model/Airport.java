@@ -1,8 +1,6 @@
 package hu.webuni.airport.model;
 
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -16,7 +14,7 @@ import java.util.Set;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Cacheable
+//@Cacheable
 public class Airport {
 
     @Id
@@ -56,7 +54,7 @@ public class Airport {
 //    ahány Flight van
 
     @OneToMany(mappedBy = "takeoff")
-    private List<Flight> departures;
+    private Set<Flight> departures;
     // joinos fetch csak queryba irva mukodik
 
     // ne List legyen hanem Set, kulonben cannot simultaneously fetch multiple bags hibat kapunk

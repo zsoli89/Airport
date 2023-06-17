@@ -1,18 +1,16 @@
 package hu.webuni.airport.repository;
 
 import com.querydsl.core.types.dsl.StringExpression;
+import hu.webuni.airport.model.Flight;
 import hu.webuni.airport.model.QFlight;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-
-import hu.webuni.airport.model.Flight;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 

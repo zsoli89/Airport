@@ -47,6 +47,9 @@ public class AirportController {
     public List<AirportDto> getAll(
             @RequestParam Optional<Boolean> full, @SortDefault("id") Pageable pageable
     ) {
+//        ha Pageable használunk, akkor a queryben ha nem rendezünk semmi szerint, semmi garancia nincs rá hogy két egymást
+//        követő lapozást megfelelően működik, ezért a @SortDefault-tal védekezhetünk
+//        enélkül ha lapozunk megjelenhetnek olyan sorok amik az előző oldalon voltak
         boolean isFull = full.orElse(false);
         List<Airport> airports = isFull
 //                ? airportRepository.findAllWithAddressAndDeparturesAndLanding() --> N*M sor jon vissza, ha N arrival es M departure van
