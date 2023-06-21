@@ -28,6 +28,10 @@ public interface FlightRepository extends
         // bindings.bind(flight.flightNumber).first((path, value) -> path.startsWithIgnoreCase(value));
         bindings.bind(flight.flightNumber).first(StringExpression::startsWithIgnoreCase);
         bindings.bind(flight.takeoff.iata).first(StringExpression::startsWith);
+
+//      tesztnek
+        bindings.bind(flight.landing.iata).first(StringExpression::containsIgnoreCase);
+
 //        bindings.bind(flight.takeoffTime).first((path, value) -> {
 //            LocalDateTime startOfDay = LocalDateTime.of(value.toLocalDate(), LocalTime.MIDNIGHT);
 //            return path.between(startOfDay, startOfDay.plusDays(1));

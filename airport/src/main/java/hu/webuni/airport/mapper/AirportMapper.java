@@ -23,7 +23,7 @@ public interface AirportMapper {
 
     AirportDto airportToDto(Airport airport);
 
-    //	ahhoz hogy ignorálja az addresst vagy a többit, kell a mapping annotáció
+    //	ahhoz hogy ignorálja az addresst és a többi kapcsolatot, kell a mapping annotáció
     @Named("summary")
     @Mapping(target = "address", ignore = true)
     @Mapping(target = "departures", ignore = true)

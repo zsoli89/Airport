@@ -48,7 +48,7 @@ public interface AirportRepository extends JpaRepository<Airport, Long>{
 //	Descartes szorzat miatt külön lekérdezésekben oldjuk meg
 	@EntityGraph(attributePaths = {"address"})
 	@Query("SELECT a FROM Airport a")
-	List<Airport> findAllWithAddress(Pageable pageable);
+	List<Airport> findAllWithAddress(/*Pageable pageable*/);
 
 	@EntityGraph(attributePaths = {"arrivals"})
 	@Query("SELECT a FROM Airport a WHERE a.id IN :ids")
@@ -56,5 +56,5 @@ public interface AirportRepository extends JpaRepository<Airport, Long>{
 
 	@EntityGraph(attributePaths = {"departures"})
 	@Query("SELECT a FROM Airport a WHERE a.id IN :ids")
-	List<Airport> findByIdWithDepartures(List<Long> ids, Sort sort);
+	List<Airport> findByIdWithDepartures(List<Long> ids/*, Sort sort*/);
 }

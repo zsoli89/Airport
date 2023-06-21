@@ -63,7 +63,7 @@ public class AirportService {
 
 	// a transactional biztositja hogy ugyanabba a perzisztencia kontextusba tartozzanak
 	@Transactional
-    public List<Airport> findAllWithRelationships(Pageable pageable) {
+    public List<Airport> findAllWithRelationships(/*Pageable pageable*/) {
 		// ezek mar lecsatolt entitasok lesznek, sima listaban ha nem lenne a Transactional annotacio
 //		List<Airport> airports = airportRepository.findAllWithAddressAndDepartures(pageable);	--> in memory lapozas, minden sor bejon a db-bol
 //		airports = airportRepository.findAllWithArrivals(pageable);
@@ -72,11 +72,10 @@ public class AirportService {
 //		ha nincs @Transactional akkor az első lekérdezés után egyből lecsatolt entitásokat kapnék, csak az arrivals lenne kitöltve
 //		az address és departures nem, és dobálná a lazy init exceptionoket
 
-		List<Airport> airports = airportRepository.findAllWithAddress(pageable);
+		List<Airport> airports = airportRepository.findAllWithAddress(/*pageable*/);
 		List<Long> airportIds = airports.stream().map(Airport::getId).toList();
-
 		airports = airportRepository.findByIdWithArrivals(airportIds);
-		airports = airportRepository.findByIdWithDepartures(airportIds, pageable.getSort());
+		airports = airportRepository.findByIdWithDepartures(airportIds/*, pageable.getSort()*/);
 
 		return airports;
 	}

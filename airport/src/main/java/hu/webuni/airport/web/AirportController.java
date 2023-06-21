@@ -45,7 +45,7 @@ public class AirportController {
     // ha nem akarjuk a plusz n selectet akkor az Airport Entity osztaly Address ManyToOne kapcsolataba Lazy fetch type kell
     @GetMapping
     public List<AirportDto> getAll(
-            @RequestParam Optional<Boolean> full, @SortDefault("id") Pageable pageable
+            @RequestParam Optional<Boolean> full/*, @SortDefault("id") Pageable pageable*/
     ) {
 //        ha Pageable használunk, akkor a queryben ha nem rendezünk semmi szerint, semmi garancia nincs rá hogy két egymást
 //        követő lapozást megfelelően működik, ezért a @SortDefault-tal védekezhetünk
@@ -53,8 +53,8 @@ public class AirportController {
         boolean isFull = full.orElse(false);
         List<Airport> airports = isFull
 //                ? airportRepository.findAllWithAddressAndDeparturesAndLanding() --> N*M sor jon vissza, ha N arrival es M departure van
-                ? airportService.findAllWithRelationships(pageable)
-                : airportRepository.findAll(pageable).getContent();
+                ? airportService.findAllWithRelationships(/*pageable*/)
+                : airportRepository.findAll(/*pageable).getContent()*/);
         return isFull
                 ? airportMapper.airportsToDtos(airports)
                 : airportMapper.airportSummariesToDtos(airports)
