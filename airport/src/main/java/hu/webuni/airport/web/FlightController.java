@@ -40,4 +40,14 @@ public class FlightController {
 	public List<FlightDto> searchFlights2(@QuerydslPredicate(root = Flight.class) Predicate predicate){
 		return flightMapper.flightsToDtos(flightRepository.findAll(predicate));
 	}
+
+	@PostMapping("/{flightId}/pollDelay/{rate}")
+	public void startDelayPolling(@PathVariable long flightId,@PathVariable long rate) {
+		flightService.startDelayPollingForFlight(flightId, rate);
+	}
+
+	@DeleteMapping("/{flightId}/pollDelay")
+	public void stopDelayPolling(@PathVariable long flightId) {
+		flightService.stopDelayPollingForFlight(flightId);
+	}
 }

@@ -76,42 +76,49 @@ public class InitDbService {
                 .takeoffTime(LocalDateTime.of(2022, 6, 10, 10, 10))
                 .takeoff(airport1)
                 .landing(airport2)
+                .delayInSec(null)
                 .build());
         flightService.save(Flight.builder()
                 .flightNumber("ABC456")
                 .takeoffTime(LocalDateTime.of(2022, 6, 10, 12, 10))
                 .takeoff(airport2)
                 .landing(airport3)
+                .delayInSec(null)
                 .build());
         flightService.save(Flight.builder()
                 .flightNumber("DEF234")
                 .takeoffTime(LocalDateTime.of(2022, 6, 12, 14, 10))
                 .takeoff(airport2)
                 .landing(airport4)
+                .delayInSec(null)
                 .build());
         flightService.save(Flight.builder()
                 .flightNumber("GHI345")
                 .takeoffTime(LocalDateTime.of(2022, 6, 13, 16, 10))
                 .takeoff(airport4)
                 .landing(airport1)
+                .delayInSec(null)
                 .build());
         flightService.save(Flight.builder()
                 .flightNumber("GTI345")
                 .takeoffTime(LocalDateTime.of(2023, 6, 13, 16, 10))
                 .takeoff(airport4)
                 .landing(airport1)
+                .delayInSec(null)
                 .build());
         flightService.save(Flight.builder()
                 .flightNumber("GHP345")
                 .takeoffTime(LocalDateTime.of(2022, 6, 13, 16, 10))
                 .takeoff(airport4)
                 .landing(airport1)
+                .delayInSec(null)
                 .build());
         flightService.save(Flight.builder()
                 .flightNumber("GHN345")
                 .takeoffTime(LocalDateTime.of(2022, 6, 13, 16, 10))
                 .takeoff(airport4)
                 .landing(airport1)
+                .delayInSec(null)
                 .build());
     }
 }
