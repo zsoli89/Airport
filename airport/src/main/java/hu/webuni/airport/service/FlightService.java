@@ -3,6 +3,7 @@ package hu.webuni.airport.service;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
+import hu.webuni.airport.aspect.LogCall;
 import hu.webuni.airport.model.Airport;
 import hu.webuni.airport.model.Flight;
 import hu.webuni.airport.model.QFlight;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
+@LogCall
 @Service
 public class FlightService {
 	
