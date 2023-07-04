@@ -112,8 +112,8 @@ public class FlightService {
 
     //    @Transactional hosszu tranzakcio, mert a getDelay lassu
 //    @Async@Scheduled(cron = "*/5 * * * * *")
-    @Scheduled(cron = "*/5 * * * * *")
-    @SchedulerLock(name = "updateDelays")
+//    @Scheduled(cron = "*/5 * * * * *")    kikapcsolom hogy ne szemetelje tele
+//    @SchedulerLock(name = "updateDelays") ezt is
     public void updateDelays() {
         System.out.println("updateDelays called");
         flightRepository.findAll().forEach(f -> {
