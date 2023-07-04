@@ -1,11 +1,13 @@
 package hu.webuni.airport.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import hu.webuni.airport.model.HistoryData;
 import hu.webuni.airport.repository.AirportRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
@@ -95,5 +97,43 @@ public class AirportController {
     @DeleteMapping("/{id}")
     public void deleteAirport(@PathVariable long id) {
         airportService.delete(id);
+    }
+
+    @GetMapping("/{id}/history")
+    public List<AirportDto> getHistoryById(@PathVariable long id) {
+        List<Airport> airport = airportService.getAirportHistory(id);
+
+        return airportMapper.airportSummariesToDtos(airport);
+    }
+
+//    plus revision infokkal
+    @GetMapping("/{id}/history2")
+    public List<HistoryData<AirportDto>> getHistoryById2(@PathVariable long id) {
+        List<HistoryData<Airport>> airportList = airportService.getAirportHistory2(id);
+
+        List<HistoryData<AirportDto>> airportDtosWithHistory = new ArrayList<>();
+        airportList.forEach(hd -> {
+            airportDtosWithHistory.add(new HistoryData<>(
+                    airportMapper.airportSummaryToDto(hd.getData()),
+                    hd.getRevType(),
+                    hd.getRevision(),
+                    hd.getDate()));
+        });
+        return airportDtosWithHistory;
+    }
+
+    @GetMapping("/{id}/history3")
+    public List<HistoryData<AirportDto>> getHistoryById3(@PathVariable long id) {
+        List<HistoryData<Airport>> airportList = airportService.getAirportHistory3(id);
+
+        List<HistoryData<AirportDto>> airportDtosWithHistory = new ArrayList<>();
+        airportList.forEach(hd -> {
+            airportDtosWithHistory.add(new HistoryData<>(
+                    airportMapper.airportToDto(hd.getData()),
+                    hd.getRevType(),
+                    hd.getRevision(),
+                    hd.getDate()));
+        });
+        return airportDtosWithHistory;
     }
 }

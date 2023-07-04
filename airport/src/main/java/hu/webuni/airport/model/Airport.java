@@ -1,6 +1,7 @@
 package hu.webuni.airport.model;
 
 import lombok.*;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -15,6 +16,7 @@ import java.util.Set;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 //@Cacheable
+@Audited
 public class Airport {
 
     @Id

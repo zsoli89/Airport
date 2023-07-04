@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import lombok.*;
+import org.hibernate.envers.Audited;
 
 @Getter
 @Setter
@@ -13,6 +14,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Audited
 public class Flight {
 
 	@Id
