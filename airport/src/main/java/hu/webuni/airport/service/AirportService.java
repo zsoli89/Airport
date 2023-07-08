@@ -1,5 +1,6 @@
 package hu.webuni.airport.service;
 
+import hu.webuni.airport.model.Address;
 import hu.webuni.airport.model.Airport;
 import hu.webuni.airport.model.HistoryData;
 import hu.webuni.airport.repository.AirportRepository;
@@ -109,7 +110,33 @@ public class AirportService {
 		return resultList;
 	}
 
-//    plus revision infokkal
+//	ez a regi verzio, openapi elotti
+////    plus revision infokkal
+//	@Transactional
+//	@SuppressWarnings({"rawtypes", "unchecked"})
+//	public List<HistoryData<Airport>> getAirportHistory2(long id) {
+//
+//		List resultList = AuditReaderFactory.get(em)
+//				.createQuery()
+//				.forRevisionsOfEntity(Airport.class, false, true)
+//				.add(AuditEntity.property("id").eq(id))
+//				.getResultList()
+//				.stream()
+//				.map(o -> {
+//					Object[] objArray = (Object[])o;
+//					DefaultRevisionEntity revisionEntity = (DefaultRevisionEntity) objArray[1];
+//					return new HistoryData<Airport>(
+//							(Airport) objArray[0],
+//							(RevisionType) objArray[2],
+//							revisionEntity.getId(),
+//							revisionEntity.getRevisionDate()
+//					);
+//				}).toList();
+//
+//		return resultList;
+//	}
+
+	//    plus revision infokkal
 	@Transactional
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public List<HistoryData<Airport>> getAirportHistory2(long id) {
@@ -134,6 +161,41 @@ public class AirportService {
 		return resultList;
 	}
 
+//	regi verzio, openapi elotti
+//	//    plus revision kapcsolatokkal
+////	itt jelentkezhet az n+1 problema, de feltetelezzuk, hogy egy entitast nem modositanak csillioszor, ezert megoldasnak elfogadjuk ezt is
+//	@Transactional
+//	@SuppressWarnings({"rawtypes", "unchecked"})
+//	public List<HistoryData<Airport>> getAirportHistory3(long id) {
+//
+//		List resultList = AuditReaderFactory.get(em)
+//				.createQuery()
+//				.forRevisionsOfEntity(Airport.class, false, true)
+//				.add(AuditEntity.property("id").eq(id))
+////				ha entitasokon belul revisionoznek ott lehetne Jointype, itt forRevisionsOfEntity itt nem lehet
+////				ehelyett lejjebb streamen belul map-nel kenyszeritjuk ki, verziohelyes kapcsolat lesz
+////				.traverseRelation("address", JoinType.LEFT)
+//				.getResultList()
+//				.stream()
+//				.map(o -> {
+//					Object[] objArray = (Object[])o;
+//					DefaultRevisionEntity revisionEntity = (DefaultRevisionEntity) objArray[1];
+//					Airport airport = (Airport) objArray[0];
+//					airport.getAddress().getCity(); // a getAdress meg nem kenyszeriti ki a kapcsolat betolteset, csak a plusz getCity() vagy
+//					airport.getArrivals().size();  // size()
+//					airport.getDepartures().size();
+//
+//					return new HistoryData<Airport>(
+//							airport,
+//							(RevisionType) objArray[2],
+//							revisionEntity.getId(),
+//							revisionEntity.getRevisionDate()
+//					);
+//				}).toList();
+//
+//		return resultList;
+//	}
+
 	//    plus revision kapcsolatokkal
 //	itt jelentkezhet az n+1 problema, de feltetelezzuk, hogy egy entitast nem modositanak csillioszor, ezert megoldasnak elfogadjuk ezt is
 	@Transactional
@@ -153,7 +215,9 @@ public class AirportService {
 					Object[] objArray = (Object[])o;
 					DefaultRevisionEntity revisionEntity = (DefaultRevisionEntity) objArray[1];
 					Airport airport = (Airport) objArray[0];
-					airport.getAddress().getCity(); // a getAdress meg nem kenyszeriti ki a kapcsolat betolteset, csak a plusz getCity() vagy
+					Address address = airport.getAddress();
+					if(address != null)
+						airport.getAddress().getCity(); // a getAdress meg nem kenyszeriti ki a kapcsolat betolteset, csak a plusz getCity() vagy
 					airport.getArrivals().size();  // size()
 					airport.getDepartures().size();
 

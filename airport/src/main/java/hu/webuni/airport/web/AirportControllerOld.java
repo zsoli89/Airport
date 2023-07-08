@@ -1,14 +1,12 @@
 package hu.webuni.airport.web;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
+import hu.webuni.airport.api.model.AirportDto;
+import hu.webuni.airport.mapper.AirportMapper;
+import hu.webuni.airport.model.Airport;
 import hu.webuni.airport.model.HistoryData;
 import hu.webuni.airport.repository.AirportRepository;
+import hu.webuni.airport.service.AirportService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
@@ -16,16 +14,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import hu.webuni.airport.dto.AirportDto;
-import hu.webuni.airport.mapper.AirportMapper;
-import hu.webuni.airport.model.Airport;
-import hu.webuni.airport.service.AirportService;
-import lombok.RequiredArgsConstructor;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
-@RestController
+//@RestController
 @RequestMapping("/api/airports")
-public class AirportController {
+public class AirportControllerOld {
 
     private final AirportService airportService;
     private final AirportRepository airportRepository;
