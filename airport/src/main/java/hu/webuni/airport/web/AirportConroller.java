@@ -7,6 +7,7 @@ import hu.webuni.airport.mapper.AirportMapper;
 import hu.webuni.airport.mapper.HistoryDataMapper;
 import hu.webuni.airport.model.Airport;
 import hu.webuni.airport.model.HistoryData;
+import hu.webuni.airport.model.Image;
 import hu.webuni.airport.repository.AirportRepository;
 import hu.webuni.airport.service.AirportService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -143,5 +146,17 @@ public class AirportConroller implements AirportControllerApi {
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Override
+    public ResponseEntity<String> uploadImageForAirport(Long id, String fileName, MultipartFile content) {
+        Image image = null;
+        try {
+            image = airportService.saveImageForAirport(id, fileName, content.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok("/api/images/" + image.getId());
     }
 }

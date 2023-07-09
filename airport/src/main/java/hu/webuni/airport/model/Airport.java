@@ -66,6 +66,10 @@ public class Airport {
     @OneToMany(mappedBy = "landing")
     private Set<Flight> arrivals;
 
+    @OneToMany
+    @JoinColumn(name = "airport_id")
+    private Set<Image> images;
+
     public Airport(String name, String iata) {
         this.name = name;
         this.iata = iata;

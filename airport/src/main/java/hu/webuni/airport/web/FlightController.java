@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -38,6 +40,7 @@ public class FlightController implements FlightControllerApi {
     }
 
     @Override
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<FlightDto> createFlight(FlightDto flightDto) {
         Flight flight = flightService.save(flightMapper.dtoToFlight(flightDto));
         return ResponseEntity.ok(flightMapper.flightToDto(flight));
