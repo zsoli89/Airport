@@ -348,7 +348,8 @@ paths:
         in: path
         required: true
       - schema:
-          type: string
+          type: integer
+          format: int32
         name: delay
         in: path
         required: true

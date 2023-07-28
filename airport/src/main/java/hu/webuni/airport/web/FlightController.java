@@ -102,9 +102,9 @@ public class FlightController implements FlightControllerApi {
 //    }
 
     @Override
-    public ResponseEntity<Void> reportDelay(Long id, String delay) {
+    public ResponseEntity<Void> reportDelay(Long id, Integer delay) {
 
-        DelayMessage payload = new DelayMessage(Integer.parseInt(delay), OffsetDateTime.now(), id);
+        DelayMessage payload = new DelayMessage(delay, OffsetDateTime.now(), id);
         this.messagingTemplate.convertAndSend("/topic/delay/" + delay, payload);
 //        itt meg queu-ba kuldjuk
         this.jmsTemplate.convertAndSend("delays", payload);
