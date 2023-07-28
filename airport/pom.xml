@@ -160,6 +160,20 @@
             <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
             <version>3.5.0</version>
         </dependency>
+<!-- az activemq bent embedded modban fut a szerveroldali alkalmazasban, ezt ki kell publikalni TCP porton is, h mas-->
+<!--        alkalmazasok is csatlakozni tudjanak -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-kahadb-store -->
+<!--    perzisztens jms uzenetkuldeshez    -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-kahadb-store</artifactId>
+        </dependency>
+
 
     </dependencies>
 

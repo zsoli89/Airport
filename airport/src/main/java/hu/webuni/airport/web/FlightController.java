@@ -15,6 +15,7 @@ import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,7 @@ public class FlightController implements FlightControllerApi {
     private final FlightRepository flightRepository;
     private final QuerydslPredicateArgumentResolver predicateResolver;
     private final SimpMessagingTemplate messagingTemplate;
+    private final JmsTemplate jmsTemplate;
 
     @Override
     public Optional<NativeWebRequest> getRequest() {
@@ -92,9 +94,22 @@ public class FlightController implements FlightControllerApi {
             return ResponseEntity.ok().build();
         }
 
+//        eddig websocketen keresztul ment ki
+//    @Override
+//    public ResponseEntity<Void> reportDelay(Long id, String delay) {
+//        this.messagingTemplate.convertAndSend("/topic/delay/" + delay, new DelayMessage(Integer.parseInt(delay), OffsetDateTime.now()));
+//        return ResponseEntity.ok().build();
+//    }
+
     @Override
     public ResponseEntity<Void> reportDelay(Long id, String delay) {
-        this.messagingTemplate.convertAndSend("/topic/delay/" + delay, new DelayMessage(Integer.parseInt(delay), OffsetDateTime.now()));
+
+        DelayMessage payload = new DelayMessage(Integer.parseInt(delay), OffsetDateTime.now(), id);
+        this.messagingTemplate.convertAndSend("/topic/delay/" + delay, payload);
+//        itt meg queu-ba kuldjuk
+        this.jmsTemplate.convertAndSend("delays", payload);
         return ResponseEntity.ok().build();
     }
+
+
 }

@@ -16,6 +16,7 @@ public class WebServiceConfig {
     private final Bus bus;
     private final AirportXmlWs airportXmlWs;
 
+//    http://localhost:8080/services/airport?wsdl ezen a cimen erheto el az xml
     @Bean
     public Endpoint endpoint() {
         EndpointImpl endpoint = new EndpointImpl(bus, airportXmlWs);
