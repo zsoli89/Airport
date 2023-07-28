@@ -11,14 +11,25 @@ public class DelayService {
 
     private Random random = new Random();
 
-    @Async
-    public Integer getDelay(long flightId) {
+    public int getDelay(long flightId) {
         System.out.println("DelayService.getDelay called at thread " + Thread.currentThread().getName());
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return random.nextInt(0, 1800);
     }
+
+    @Async
+    public CompletableFuture<Integer> getDelayAsync(long flightId) {
+        System.out.println("DelayService.getDelay called at thread " + Thread.currentThread().getName());
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return CompletableFuture.completedFuture(random.nextInt(0, 1800));
+    }
+
 }
