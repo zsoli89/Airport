@@ -11,6 +11,9 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
+//  ha van keses van egy rest vegpont, ebbol a vegpontbol fogjuk szetbroadcastolni azoknak a klienseknek akik
+//    feliratkoztak annak a jaratnak a keseseire
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 //        websockettel ide kell csatlakozniuk
@@ -24,6 +27,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 //        ami ilyen url-re jön üzenet azt egybol tovabbitja a feliratkozoknak, eleg a prefixet megadni
         registry.enableSimpleBroker("/topic");
 //        ha a kliensek kuldenek fel websocketes kerest, szeretnenk szerveren oldalon messagemapperes metodusban, azt itt kellene kuldeniuk
+//        mi ezt nem fogjuk hasznalni
         registry.setApplicationDestinationPrefixes("/app");
     }
 }

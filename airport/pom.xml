@@ -144,12 +144,12 @@
             <artifactId>jackson-databind-nullable</artifactId>
             <version>0.2.2</version>
         </dependency>
-
+<!--        ez a websocket hasznalatahoz kell-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
         </dependency>
-
+<!--        ez a STOMP hasznalatahoz kell-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-messaging</artifactId>
