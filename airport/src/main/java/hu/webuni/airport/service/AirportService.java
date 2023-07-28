@@ -96,8 +96,8 @@ public class AirportService {
 	}
 
 //	envers lekerdezes, transactionalnek kell lennie, AuditReaderFactorynak kell Entitymanager
-	@Transactional
 //	egyik problemaja hogy rawtype, ezt a rawtypes szoval, masik hogy typesafety az pedig unchecked
+	@Transactional
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public List<Airport> getAirportHistory(long id) {
 
@@ -218,7 +218,7 @@ public class AirportService {
 					DefaultRevisionEntity revisionEntity = (DefaultRevisionEntity) objArray[1];
 					Airport airport = (Airport) objArray[0];
 					Address address = airport.getAddress();
-					if(address != null)
+					if (address != null)
 						airport.getAddress().getCity(); // a getAdress meg nem kenyszeriti ki a kapcsolat betolteset, csak a plusz getCity() vagy
 					airport.getArrivals().size();  // size()
 					airport.getDepartures().size();

@@ -11,6 +11,7 @@ import hu.webuni.airport.model.Image;
 import hu.webuni.airport.repository.AirportRepository;
 import hu.webuni.airport.service.AirportService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.envers.RevisionType;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -26,14 +27,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
-public class AirportConroller implements AirportControllerApi {
+public class AirportController implements AirportControllerApi {
 
     private final NativeWebRequest nativeWebRequest;
     private final AirportService airportService;
@@ -48,7 +48,8 @@ public class AirportConroller implements AirportControllerApi {
         return Optional.ofNullable(nativeWebRequest);
     }
 
-    public void configPageable(@SortDefault("id") Pageable pageable) {}
+    public void configPageable(@SortDefault("id") Pageable pageable) {
+    }
 
     public Pageable createPageable(String pageableConfigurerMethodName) {
         Method method;
@@ -113,15 +114,50 @@ public class AirportConroller implements AirportControllerApi {
         return ResponseEntity.ok(airportMapper.airportSummariesToDtos(airport));
     }
 
+    private HistoryDataAirportDto createHistoryDataAirportDto(
+            AirportDto airportDto, HistoryDataAirportDto.RevTypeEnum revEnum, Integer revision, LocalDateTime revDate) {
+        HistoryDataAirportDto dto = new HistoryDataAirportDto();
+        dto.setData(airportDto);
+        dto.setRevType(revEnum);
+        dto.setRevision(revision);
+        dto.setDate(revDate);
+        return dto;
+    }
+
+    private HistoryDataAirportDto.RevTypeEnum createEnum(RevisionType revType) {
+        System.out.println("RevType: " + revType.name());
+        if (revType.name().equals("ADD"))
+            return HistoryDataAirportDto.RevTypeEnum.ADD;
+        if (revType.name().equals("MOD"))
+            return HistoryDataAirportDto.RevTypeEnum.MOD;
+        if (revType.name().equals("DEL"))
+            return HistoryDataAirportDto.RevTypeEnum.DEL;
+        return null;
+    }
+
+    private LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+    }
+
     @Override
     public ResponseEntity<List<HistoryDataAirportDto>> getHistoryById2(Long id) {
         List<HistoryData<Airport>> airportList = airportService.getAirportHistory2(id);
 
-        List<HistoryDataAirportDto> airportDtosWithHistory = new ArrayList<>();
+//        List<HistoryDataAirportDto> airportDtosWithHistory = new ArrayList<>();
+//        airportList.forEach(hd -> airportDtosWithHistory.add(historyDataMapper.airportHistoryDataToDto(hd)));
+//        return ResponseEntity.ok(airportDtosWithHistory);
+        List<HistoryDataAirportDto> historyDataAirportDtoList = new ArrayList<>();
         airportList.forEach(hd -> {
-            airportDtosWithHistory.add(historyDataMapper.airportHistoryDataToDto(hd));
+            historyDataAirportDtoList.add(
+                    createHistoryDataAirportDto(
+                            airportMapper.airportSummaryToDto(hd.getData()),
+                            createEnum(hd.getRevType()),
+                            hd.getRevision(),
+                            convertToLocalDateTimeViaInstant(hd.getDate())));
         });
-        return ResponseEntity.ok(airportDtosWithHistory);
+        return ResponseEntity.ok(historyDataAirportDtoList);
     }
 
     @Override
@@ -129,9 +165,7 @@ public class AirportConroller implements AirportControllerApi {
         List<HistoryData<Airport>> airportList = airportService.getAirportHistory3(id);
 
         List<HistoryDataAirportDto> airportDtosWithHistory = new ArrayList<>();
-        airportList.forEach(hd -> {
-            airportDtosWithHistory.add(historyDataMapper.airportHistoryDataToDto(hd));
-        });
+        airportList.forEach(hd -> airportDtosWithHistory.add(historyDataMapper.airportHistoryDataToDto(hd)));
         return ResponseEntity.ok(airportDtosWithHistory);
     }
 

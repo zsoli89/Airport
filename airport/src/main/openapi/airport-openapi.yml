@@ -339,6 +339,27 @@ paths:
                 type: string
                 format: binary
       operationId: downloadImage
+  '/api/flights/{id}/delay/{delay}':
+    parameters:
+      - schema:
+          type: integer
+          format: int64
+        name: id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: delay
+        in: path
+        required: true
+    put:
+      summary: ''
+      operationId: reportDelay
+      responses:
+        '200':
+          description: OK
+      tags:
+        - flight-controller
 components:
   schemas:
     AddressDto:
