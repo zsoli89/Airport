@@ -14,15 +14,15 @@ public class AirportUser {
     private String username;
     private String password;
 
-//    private String facebookId;
-
-//    public String getFacebookId() {
-//        return facebookId;
-//    }
+    private String facebookId;
 //
-//    public void setFacebookId(String facebookId) {
-//        this.facebookId = facebookId;
-//    }
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles;

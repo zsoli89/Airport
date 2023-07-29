@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .csrf(
                         csrf -> csrf.disable()
                 )
+//                a STATELESS-t ki kell kapcsolni a facebook miatt
 //			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 //.and()
                 .authorizeHttpRequests(auth -> auth
@@ -59,9 +60,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/airports/**").hasAnyAuthority("user", "admin")
                         .anyRequest().authenticated()
                 )
-//                .oauth2Login(oAuth2Login -> oAuth2Login
-//                        .defaultSuccessUrl("/fbLoginSuccess", true)
-//                )
+                .oauth2Login(oAuth2Login -> oAuth2Login
+                        .defaultSuccessUrl("/fbLoginSuccess", true)
+                )
         ;
 
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
