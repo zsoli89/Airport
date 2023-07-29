@@ -1,12 +1,16 @@
 package hu.webuni.airport.service;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import hu.webuni.airport.aspect.LogCall;
 import hu.webuni.airport.model.Address;
+import hu.webuni.airport.model.AirportUser;
 import hu.webuni.airport.repository.AddressRepository;
 import hu.webuni.airport.repository.FlightRepository;
+import hu.webuni.airport.repository.UserRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +28,8 @@ public class InitDbService {
     private final AddressRepository addressRepository;
     private final FlightRepository flightRepository;
     private final JdbcTemplate jdbcTemplate;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @LogCall
@@ -129,5 +135,18 @@ public class InitDbService {
                 .landing(airport1)
                 .delayInSec(null)
                 .build());
+
+        createUsersIfNeeded();
+    }
+
+    @Transactional
+    public void createUsersIfNeeded() {
+        if(!userRepository.existsById("admin")) {
+            userRepository.save(new AirportUser("admin", passwordEncoder.encode("pass"), Set.of("admin", "user")));
+        }
+
+        if(!userRepository.existsById("user")) {
+            userRepository.save(new AirportUser("user", passwordEncoder.encode("pass"), Set.of("user")));
+        }
     }
 }
