@@ -11,7 +11,7 @@ import org.apache.cxf.annotations.UseAsyncMethod;
 import org.apache.cxf.jaxws.ServerAsyncResponse;
 import org.springframework.stereotype.Service;
 
-import javax.xml.ws.AsyncHandler;
+import jakarta.xml.ws.AsyncHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;

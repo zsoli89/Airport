@@ -2,7 +2,7 @@ package hu.webuni.airport.model;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import lombok.*;
 import org.hibernate.envers.Audited;

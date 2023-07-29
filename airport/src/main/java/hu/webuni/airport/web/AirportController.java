@@ -184,7 +184,7 @@ public class AirportController implements AirportControllerApi {
 
     @Override
     public ResponseEntity<String> uploadImageForAirport(Long id, String fileName, MultipartFile content) {
-        Image image = null;
+        Image image;
         try {
             image = airportService.saveImageForAirport(id, fileName, content.getBytes());
         } catch (IOException e) {

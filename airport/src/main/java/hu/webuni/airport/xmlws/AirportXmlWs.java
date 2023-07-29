@@ -2,8 +2,8 @@ package hu.webuni.airport.xmlws;
 
 import hu.webuni.airport.api.model.HistoryDataAirportDto;
 
-import javax.jws.WebService;
-import javax.xml.ws.ResponseWrapper;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.ResponseWrapper;
 import java.util.List;
 
 @WebService

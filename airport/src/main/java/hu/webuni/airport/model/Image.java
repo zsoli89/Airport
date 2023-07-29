@@ -4,10 +4,10 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 
 @Getter
 @Setter
@@ -23,7 +23,7 @@ public class Image {
     @GeneratedValue
     private long id;
     private String fileName;
-    @Lob
-    @Type(type = "org.hibernate.type.BinaryType")
+//    @Lob
+//    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] data;
 }

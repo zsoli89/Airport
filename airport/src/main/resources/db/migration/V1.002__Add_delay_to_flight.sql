@@ -1,1 +1,1 @@
-alter table flight add column delay int default 0;
+alter table flight add column if not exists delay int default 0;
